@@ -89,6 +89,9 @@
 (use-package magit
   :bind (("C-x g" . magit)))
 
+(use-package diff-hl
+  :config (global-diff-hl-mode +1))
+
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
 
