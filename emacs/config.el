@@ -92,4 +92,5 @@
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
 
-
+(use-package circe
+  :config (load-file "/home/semi/.config/emacs/circe.el"))
