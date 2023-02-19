@@ -9,7 +9,6 @@
       kept-old-version 2
       version-control t)
 
-
 (add-hook 'prog-mode-hook (lambda ()
 			    (setq display-line-numbers-type 'relative)
 			    (display-line-numbers-mode)))
@@ -96,4 +95,7 @@
   :hook (org-mode . org-superstar-mode))
 
 (use-package circe
-  :config (load-file "/home/semi/.config/emacs/circe.el"))
+  :config
+  ;; This loads my libera.chat authentication information, which isn't
+  ;; stored here.
+  (load-file "/home/semi/.config/emacs/circe.el"))
