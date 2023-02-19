@@ -88,6 +88,8 @@
 (use-package magit
   :bind (("C-x g" . magit)))
 
+(use-package projectile)
+
 (use-package diff-hl
   :config (global-diff-hl-mode +1))
 
