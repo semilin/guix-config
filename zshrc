@@ -12,5 +12,5 @@ alias ls="exa --icons"
 alias ll="ls -l"
 alias l="ls"
 alias ghr="guix home reconfigure -L /home/semi/code/guix-config/custom/ /home/semi/code/guix-config/home-configuration.scm"
-alias gsr="sudo -E guix system reconfigure -L /home/semi/code/guix-config/custom/ /home/semi/.config/guix/system.scm"
+alias gsr="sudo -E guix system reconfigure -L /home/semi/code/guix-config/custom/ /home/semi/code/guix-config/system.scm"
 
