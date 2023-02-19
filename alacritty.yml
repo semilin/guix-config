@@ -1,0 +1,18 @@
+shell:
+  program: /home/semi/.guix-profile/bin/zsh
+
+font:
+  normal:
+    family: Iosevka Nerd Font
+    style: Regular
+  bold:
+    family: Iosevka Nerd Font
+    style: Bold
+  italic:
+    family: Iosevka Nerd Font
+    style: Italic
+  bold_italic:
+    family: Iosevka Nerd Font
+    style: Bold Italic
+
+  size: 13.0
