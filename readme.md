@@ -6,7 +6,7 @@ shouldn't copy much from this.
 
 ## Window manager
 I'm trying out qtile and wayland. Because I like s-expressions,
-[](./qtile.hy) is transpiled to [](./qtile/config.py) at build time
+[qtile.hy](./qtile.hy) is transpiled to [qtile/config.py](./qtile/config.py) at build time
 with `hy2py`, which is then linked to
 `~/.config/qtile/configuration.py`.
 
@@ -21,5 +21,5 @@ so I think I'll keep using Xremap even once I get Kanata working.
 
 ## Custom packages
 My custom packages, including xremap and the Nerd Fonts patched
-Iosevka, are stored in [](./custom/semi/packages/). Adding new
+Iosevka, are stored in [custom/semi/packages/](./custom/semi/packages/). Adding new
 packages to Guix is surprisingly easy and strangely satisfying.
