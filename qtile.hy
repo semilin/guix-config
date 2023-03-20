@@ -55,6 +55,7 @@
                                   (widget.Chord :chords_colors {"launch" #("#ff0000" "#ffffff")}
                                                 :name_transform (fn [name]
                                                                   (.upper name)))
+                                  (widget.Battery :format "{char} {percent:2.0%} {hour:d}:{min:02d}")
                                   (widget.Clock :format "%Y-%m-%d %a %I:%M %p")
                                   (widget.QuickExit)]
                                  24))])

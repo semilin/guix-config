@@ -1838,25 +1838,514 @@ an environment variable.")
    (description "Flexible concrete Error type built on std::error::Error")
    (license (list license:expat license:asl2.0))))
 
-(define-public rust-keynergy-0.2
+(define-public rust-interception-0.1
   (package
-   (name "rust-keynergy")
-   (version "0.2.7")
+   (name "rust-interception")
+   (version "0.1.2")
    (source (origin
             (method url-fetch)
-            (uri (crate-uri "keynergy" version))
+            (uri (crate-uri "interception" version))
             (file-name (string-append name "-" version ".tar.gz"))
             (sha256
              (base32
-              "1vp5c4hf7634zq1h8w6bhd4digiqvl208hfkg2a4anp8nb1cfzby"))))
+              "1cqp5g83l7m76gjr3csnds9nsf8024m8jyw0x73g7p3gihhxrd3n"))))
    (build-system cargo-build-system)
    (arguments
-    `(#:cargo-inputs (("rust-ketos" ,rust-ketos-0.11)
-                      ("rust-ketos-derive" ,rust-ketos-derive-0.12)
-                      ("rust-serde" ,rust-serde-1)
-                      ("rust-toml" ,rust-toml-0.5))
-      #:cargo-development-inputs (("rust-criterion" ,rust-criterion-0.3))))
-   (home-page "https://github.com/keynergy/keynergy")
-   (synopsis "An efficient and extensible layout analysis library")
-   (description "An efficient and extensible layout analysis library")
-   (license license:gpl3+)))
+    `(#:cargo-inputs (("rust-bitflags" ,rust-bitflags-1)
+                      ("rust-interception-sys" ,rust-interception-sys-0.1)
+                      ("rust-num-enum" ,rust-num-enum-0.5)
+                      ("rust-serde" ,rust-serde-1))))
+   (home-page "https://github.com/bozbez/interception-rs")
+   (synopsis "Safe wrapper for Interception")
+   (description "Safe wrapper for Interception")
+   (license (list license:expat license:asl2.0))))
+
+(define-public rust-native-windows-gui-1
+  (package
+   (name "rust-native-windows-gui")
+   (version "1.0.13")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "native-windows-gui" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "0m44lbslzvs04i4rgcphld23qlwf9zzlzmspgimyp3gnd6k06w2g"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-bitflags" ,rust-bitflags-1)
+                      ("rust-lazy-static" ,rust-lazy-static-1)
+                      ("rust-muldiv" ,rust-muldiv-0.2)
+                      ("rust-newline-converter" ,rust-newline-converter-0.2)
+                      ("rust-plotters" ,rust-plotters-0.3)
+                      ("rust-plotters-backend" ,rust-plotters-backend-0.3)
+                      ("rust-raw-window-handle" ,rust-raw-window-handle-0.3)
+                      ("rust-stretch" ,rust-stretch-0.3)
+                      ("rust-winapi" ,rust-winapi-0.3)
+                      ("rust-winapi-build" ,rust-winapi-build-0.1))))
+   (home-page "https://github.com/gabdube/native-windows-gui")
+   (synopsis
+    "A rust library to develop native GUI applications on the desktop for Microsoft Windows. Native-windows-gui wraps the native win32 window controls in a rustic API")
+   (description
+    "This package provides a rust library to develop native GUI applications on the
+desktop for Microsoft Windows.  Native-windows-gui wraps the native win32 window
+controls in a rustic API")
+   (license license:expat)))
+
+(define-public rust-simplelog-0.12
+  (package
+   (name "rust-simplelog")
+   (version "0.12.0")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "simplelog" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "11m7f2djih4413fdjk9lkkhwxq7lsqf86z00bd4xsx6ym82gzps8"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-ansi-term" ,rust-ansi-term-0.12)
+                      ("rust-log" ,rust-log-0.4)
+                      ("rust-paris" ,rust-paris-1)
+                      ("rust-termcolor" ,rust-termcolor-1)
+                      ("rust-time" ,rust-time-0.3))))
+   (home-page "https://github.com/drakulix/simplelog.rs")
+   (synopsis "A simple and easy-to-use logging facility for Rust's log crate")
+   (description
+    "This package provides a simple and easy-to-use logging facility for Rust's log
+crate")
+   (license (list license:expat license:asl2.0))))
+
+(define-public rust-interception-sys-0.1
+  (package
+   (name "rust-interception-sys")
+   (version "0.1.3")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "interception-sys" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "1lgwbml7gzq5a5rriy708w68gx6yiw9cdg7xy2c5vsrrck7pbs5b"))))
+   (build-system cargo-build-system)
+   (home-page "https://github.com/bozbez/interception-sys")
+   (synopsis "FFI bindings for Interception")
+   (description "FFI bindings for Interception")
+   (license license:lgpl3)))
+
+(define-public rust-arraydeque-0.5
+  (package
+   (name "rust-arraydeque")
+   (version "0.5.1")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "arraydeque" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "0dn2xdfg3rkiqsh8a6achnmvf5nf11xk33xgjzpksliab4yjx43x"))))
+   (build-system cargo-build-system)
+   (home-page "https://github.com/andylokandy/arraydeque")
+   (synopsis
+    "A ring buffer with a fixed capacity, which can be stored on the stack.")
+   (description
+    "This package provides a ring buffer with a fixed capacity, which can be stored
+on the stack.")
+   (license (list license:expat license:asl2.0))))
+
+(define-public rust-arraydeque-0.4
+  (package
+   (name "rust-arraydeque")
+   (version "0.4.5")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "arraydeque" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "1n4appvjfrmxkc4x0v8ivpzwqf1z6pqx2caxk98116fqkgbd7zzh"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-generic-array" ,rust-generic-array-0.12))))
+   (home-page "https://github.com/andylokandy/arraydeque")
+   (synopsis
+    "A ring buffer with a fixed capacity, which can be stored on the stack.")
+   (description
+    "This package provides a ring buffer with a fixed capacity, which can be stored
+on the stack.")
+   (license (list license:expat license:asl2.0))))
+
+(define-public rust-usb-device-0.2
+  (package
+   (name "rust-usb-device")
+   (version "0.2.9")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "usb-device" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "0205a850jhw9gb96scwfx1k4iwpjvighvz3m80mjkda9r2nw6v0z"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-defmt" ,rust-defmt-0.3))
+      #:cargo-development-inputs (("rust-rand" ,rust-rand-0.8)
+                                  ("rust-rusb" ,rust-rusb-0.9))))
+   (home-page "https://github.com/mvirkkunen/usb-device")
+   (synopsis "Experimental device-side USB stack for embedded devices.")
+   (description "Experimental device-side USB stack for embedded devices.")
+   (license license:expat)))
+
+(define-public rust-muldiv-1
+  (package
+   (name "rust-muldiv")
+   (version "1.0.1")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "muldiv" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "1c6ljsp41n8ijsx7zicwfm135drgyhcms12668ivvsbm1r98frwm"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-development-inputs (("rust-quickcheck" ,rust-quickcheck-1))))
+   (home-page "https://github.com/sdroege/rust-muldiv")
+   (synopsis
+    "Provides a trait for numeric types to perform combined multiplication and
+division with overflow protection
+")
+   (description
+    "This package provides a trait for numeric types to perform combined
+multiplication and division with overflow protection")
+   (license license:expat)))
+
+(define-public rust-muldiv-0.2
+  (package
+   (name "rust-muldiv")
+   (version "0.2.1")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "muldiv" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "014jlry2l2ph56mp8knw65637hh49q7fmrraim2bx9vz0a638684"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-development-inputs (("rust-quickcheck" ,rust-quickcheck-0.9))))
+   (home-page "https://github.com/sdroege/rust-muldiv")
+   (synopsis
+    "Provides a trait for numeric types to perform combined multiplication and
+division with overflow protection
+")
+   (description
+    "This package provides a trait for numeric types to perform combined
+multiplication and division with overflow protection")
+   (license license:expat)))
+
+(define-public rust-newline-converter-0.2
+  (package
+   (name "rust-newline-converter")
+   (version "0.2.2")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "newline-converter" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "03y000bbxnwzb7aipxyw7gm68b1bd8dv7illz03l4qw7bjfx0w8z"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-unicode-segmentation" ,rust-unicode-segmentation-1))
+      #:cargo-development-inputs (("rust-criterion" ,rust-criterion-0.3)
+                                  ("rust-fancy-regex" ,rust-fancy-regex-0.10)
+                                  ("rust-lazy-regex" ,rust-lazy-regex-2)
+                                  ("rust-once-cell" ,rust-once-cell-1))))
+   (home-page
+    "https://github.com/spitfire05/rnc/tree/master/crates/newline-converter")
+   (synopsis "Newline byte converter library")
+   (description "Newline byte converter library")
+   (license license:expat)))
+
+(define-public rust-raw-window-handle-0.3
+  (package
+   (name "rust-raw-window-handle")
+   (version "0.3.4")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "raw-window-handle" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "0xisj116xpaz1i2hci9jqfnccyixba1xryxl1gbdlj057la5b3z2"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-libc" ,rust-libc-0.2)
+                      ("rust-raw-window-handle" ,rust-raw-window-handle-0.4))))
+   (home-page "https://github.com/rust-windowing/raw-window-handle")
+   (synopsis "Interoperability library for Rust Windowing applications.")
+   (description "Interoperability library for Rust Windowing applications.")
+   (license license:expat)))
+
+(define-public rust-stretch-0.3
+  (package
+   (name "rust-stretch")
+   (version "0.3.2")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "stretch" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "11vdmli145j6yakgr7hkzgbnz1kqsb9rq3zrxl1g6dz11k9cc3bv"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-lazy-static" ,rust-lazy-static-1)
+                      ("rust-libm" ,rust-libm-0.1))
+      #:cargo-development-inputs (("rust-criterion" ,rust-criterion-0.2))))
+   (home-page "https://github.com/vislyhq/stretch")
+   (synopsis "High performance & cross-platform Flexbox implementation")
+   (description "High performance & cross-platform Flexbox implementation")
+   (license license:expat)))
+
+(define-public rust-ansi-term-0.12
+  (package
+   (name "rust-ansi-term")
+   (version "0.12.1")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "ansi-term" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "1ljmkbilxgmhavxvxqa7qvm6f3fjggi7q2l3a72q9x0cxjvrnanm"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-serde" ,rust-serde-1)
+                      ("rust-winapi" ,rust-winapi-0.3))
+      #:cargo-development-inputs (("rust-doc-comment" ,rust-doc-comment-0.3)
+                                  ("rust-regex" ,rust-regex-1)
+                                  ("rust-serde-json" ,rust-serde-json-1))))
+   (home-page "https://github.com/ogham/rust-ansi-term")
+   (synopsis "Library for ANSI terminal colours and styles (bold, underline)")
+   (description
+    "Library for ANSI terminal colours and styles (bold, underline)")
+   (license license:expat)))
+
+(define-public rust-rusb-0.9
+  (package
+   (name "rust-rusb")
+   (version "0.9.1")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "rusb" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "1q6fypmxh79nh49qd1k4lizcz3gwd0pb2djizcs9nn0wq8ss0fkh"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-libc" ,rust-libc-0.2)
+                      ("rust-libusb1-sys" ,rust-libusb1-sys-0.6))
+      #:cargo-development-inputs (("rust-regex" ,rust-regex-1))))
+   (home-page "https://github.com/a1ien/rusb")
+   (synopsis "Rust library for accessing USB devices.")
+   (description "Rust library for accessing USB devices.")
+   (license license:expat)))
+
+(define-public rust-raw-window-handle-0.4
+  (package
+   (name "rust-raw-window-handle")
+   (version "0.4.3")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "raw-window-handle" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "0hgvrqbr2b62zhq4ryv08h92mwis9v8f7j9pwcgxzlp7nswvw05q"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-cty" ,rust-cty-0.2))))
+   (home-page "https://github.com/rust-windowing/raw-window-handle")
+   (synopsis "Interoperability library for Rust Windowing applications.")
+   (description "Interoperability library for Rust Windowing applications.")
+   (license (list license:expat license:asl2.0 license:zlib))))
+
+(define-public rust-fancy-regex-0.10
+  (package
+   (name "rust-fancy-regex")
+   (version "0.10.0")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "fancy-regex" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "0rn7wfihsk877h3kwzzm99ykflfkhg039l4synm9algs8qnsny06"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-bit-set" ,rust-bit-set-0.5)
+                      ("rust-regex" ,rust-regex-1))
+      #:cargo-development-inputs (("rust-bitflags" ,rust-bitflags-1)
+                                  ("rust-criterion" ,rust-criterion-0.3)
+                                  ("rust-half" ,rust-half-1)
+                                  ("rust-matches" ,rust-matches-0.1)
+                                  ("rust-quickcheck" ,rust-quickcheck-1))))
+   (home-page "https://github.com/fancy-regex/fancy-regex")
+   (synopsis
+    "An implementation of regexes, supporting a relatively rich set of features, including backreferences and look-around.")
+   (description
+    "An implementation of regexes, supporting a relatively rich set of features,
+including backreferences and look-around.")
+   (license license:expat)))
+
+(define-public rust-lazy-regex-2
+  (package
+   (name "rust-lazy-regex")
+   (version "2.4.1")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "lazy-regex" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "14v7ayd3vpr8jp924z9ynh0f31gjy2ajf9ax8amqgzdyi4pxl1d5"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-lazy-regex-proc-macros" ,rust-lazy-regex-proc-macros-2)
+                      ("rust-once-cell" ,rust-once-cell-1)
+                      ("rust-regex" ,rust-regex-1))))
+   (home-page "https://github.com/Canop/lazy-regex")
+   (synopsis "lazy static regular expressions checked at compile time")
+   (description "lazy static regular expressions checked at compile time")
+   (license license:expat)))
+
+(define-public rust-bitflags-1
+  (package
+   (name "rust-bitflags")
+   (version "1.3.2")
+   (source (origin
+            (method url-fetch)
+            (uri (crate-uri "bitflags" version))
+            (file-name (string-append name "-" version ".tar.gz"))
+            (sha256
+             (base32
+              "12ki6w8gn1ldq7yz9y680llwk5gmrhrzszaa17g1sbrw2r2qvwxy"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs (("rust-compiler-builtins" ,rust-compiler-builtins-0.1)
+                      ("rust-rustc-std-workspace-core" ,rust-rustc-std-workspace-core-1))
+      #:cargo-development-inputs (("rust-rustversion" ,rust-rustversion-1)
+                                  ("rust-serde" ,rust-serde-1)
+                                  ("rust-serde-derive" ,rust-serde-derive-1)
+                                  ("rust-serde-json" ,rust-serde-json-1)
+                                  ("rust-trybuild" ,rust-trybuild-1)
+                                  ("rust-walkdir" ,rust-walkdir-2))))
+   (home-page "https://github.com/bitflags/bitflags")
+   (synopsis "A macro to generate structures which behave like bitflags.
+")
+   (description
+    "This package provides a macro to generate structures which behave like bitflags.")
+   (license (list license:expat license:asl2.0))))
+
+(define-public rust-inotify-0.10
+  (package
+    (name "rust-inotify")
+    (version "0.10.0")
+    (source (origin
+              (method url-fetch)
+              (uri (crate-uri "inotify" version))
+              (file-name (string-append name "-" version ".tar.gz"))
+              (sha256
+               (base32
+		"1yfkp6k5yn1lyy2qbsnikaix22zikygdqj69nabh2aawazwqiy5b"))))
+    (build-system cargo-build-system)
+    (arguments
+     `(#:cargo-inputs (("rust-bitflags" ,rust-bitflags-1)
+                       ("rust-futures-core" ,rust-futures-core-0.3)
+                       ("rust-inotify-sys" ,rust-inotify-sys-0.1)
+                       ("rust-libc" ,rust-libc-0.2)
+                       ("rust-tokio" ,rust-tokio-1))
+       #:cargo-development-inputs (("rust-futures-util" ,rust-futures-util-0.3)
+                                   ("rust-tempfile" ,rust-tempfile-3)
+                                   ("rust-tokio" ,rust-tokio-1))))
+    (home-page "https://github.com/hannobraun/inotify")
+    (synopsis "Idiomatic wrapper for inotify")
+    (description "Idiomatic wrapper for inotify")
+    (license license:isc)))
+
+(define-public rust-serial-test-0.7
+  (package
+    (name "rust-serial-test")
+    (version "0.7.0")
+    (source (origin
+              (method url-fetch)
+              (uri (crate-uri "serial-test" version))
+              (file-name (string-append name "-" version ".tar.gz"))
+              (sha256
+               (base32
+                "1x69v41r2d3l1dby8ppr9vxb1xamjpml5w42zvdwwix1k6wvz7fi"))))
+    (build-system cargo-build-system)
+    (arguments
+     `(#:cargo-inputs (("rust-document-features" ,rust-document-features-0.2)
+                       ("rust-fslock" ,rust-fslock-0.2)
+                       ("rust-lazy-static" ,rust-lazy-static-1)
+                       ("rust-log" ,rust-log-0.4)
+                       ("rust-parking-lot" ,rust-parking-lot-0.12)
+                       ("rust-serial-test-derive" ,rust-serial-test-derive-0.7))
+       #:cargo-development-inputs (("rust-itertools" ,rust-itertools-0.10))))
+    (home-page "https://github.com/palfrey/serial_test/")
+    (synopsis "Allows for the creation of serialised Rust tests")
+    (description "Allows for the creation of serialised Rust tests")
+    (license license:expat)))
+
+(define-public rust-serial-test-derive-0.7
+  (package
+    (name "rust-serial-test-derive")
+    (version "0.7.0")
+    (source (origin
+              (method url-fetch)
+              (uri (crate-uri "serial-test-derive" version))
+              (file-name (string-append name "-" version ".tar.gz"))
+              (sha256
+               (base32
+                "1wjrhql36lsgjw9zg5c95px0mq74ry5m46hwiwgnh7dyn98217nb"))))
+    (build-system cargo-build-system)
+    (arguments
+     `(#:cargo-inputs (("rust-proc-macro-error" ,rust-proc-macro-error-1)
+                       ("rust-proc-macro2" ,rust-proc-macro2-1)
+                       ("rust-quote" ,rust-quote-1)
+                       ("rust-rustversion" ,rust-rustversion-1)
+                       ("rust-syn" ,rust-syn-1))
+       #:cargo-development-inputs (("rust-env-logger" ,rust-env-logger-0.9)
+                                   ("rust-trybuild" ,rust-trybuild-1))))
+    (home-page "https://github.com/palfrey/serial_test/")
+    (synopsis "Helper crate for serial_test")
+    (description "Helper crate for serial_test")
+    (license license:expat)))
+
+(define-public rust-keynergy-0.2
+  (package
+    (name "rust-keynergy")
+    (version "0.2.7")
+    (source (origin
+              (method url-fetch)
+              (uri (crate-uri "keynergy" version))
+              (file-name (string-append name "-" version ".tar.gz"))
+              (sha256
+               (base32
+		"1vp5c4hf7634zq1h8w6bhd4digiqvl208hfkg2a4anp8nb1cfzby"))))
+    (build-system cargo-build-system)
+    (arguments
+     `(#:cargo-inputs (("rust-ketos" ,rust-ketos-0.11)
+                       ("rust-ketos-derive" ,rust-ketos-derive-0.12)
+                       ("rust-serde" ,rust-serde-1)
+                       ("rust-toml" ,rust-toml-0.5))
+       #:cargo-development-inputs (("rust-criterion" ,rust-criterion-0.3))))
+    (home-page "https://github.com/keynergy/keynergy")
+    (synopsis "An efficient and extensible layout analysis library")
+    (description "An efficient and extensible layout analysis library")
+    (license license:gpl3+)))

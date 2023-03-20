@@ -31,3 +31,19 @@ modmap:
                 n: p
                 m: g
                 apostrophe: semicolon
+                CapsLock: esc
+
+keymap:
+  - name: Firefox
+    application:
+      only: Nightly
+    remap:
+      C-b: left
+      C-f: right
+      C-p: up
+      C-n: down
+
+      M-b: { with_mark: C-left }
+      M-f: { with_mark: C-right }
+      C-a: Home
+      C-e: End

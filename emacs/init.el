@@ -1,8 +1,10 @@
-(setq gc-cons-threshold 1000000000)
-(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 500000)))
+(set-face-attribute 'default nil
+		    :font "Iosevka Nerd Font"
+		    :height (round (* 1.5 150)))
 
 (setq default-frame-alist '((cursor-color . "white")
-			    (vertical-scroll-bars . nil)))
+			    (vertical-scroll-bars . nil)
+			    (font . "Iosevka Nerd Font")))
 
 (load-file "~/.config/emacs/config.el")
 

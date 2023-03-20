@@ -16,4 +16,4 @@ for i in groups:
     keys.extend([Key([mod, 'shift'], i.name, lazy.window.togroup(i.name), desc=f'Switch to group {i.name}')])
 layouts = [layout.Bsp(ratio=1)]
 widget_defaults = dict(font='sans', fontsize=20, padding=3)
-screens = [Screen(wallpaper='~/.config/qtile/background.jpg', wallpaper_mode='fill', bottom=bar.Bar([widget.CurrentLayout(), widget.GroupBox(), widget.Prompt(), widget.WindowName(), widget.Chord(chords_colors={'launch': ('#ff0000', '#ffffff')}, name_transform=lambda name: name.upper()), widget.Clock(format='%Y-%m-%d %a %I:%M %p'), widget.QuickExit()], 24))]
+screens = [Screen(wallpaper='~/.config/qtile/background.jpg', wallpaper_mode='fill', bottom=bar.Bar([widget.CurrentLayout(), widget.GroupBox(), widget.Prompt(), widget.WindowName(), widget.Chord(chords_colors={'launch': ('#ff0000', '#ffffff')}, name_transform=lambda name: name.upper()), widget.Battery(format='{char} {percent:2.0%} {hour:d}:{min:02d}'), widget.Clock(format='%Y-%m-%d %a %I:%M %p'), widget.QuickExit()], 24))]

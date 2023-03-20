@@ -12,6 +12,7 @@
 (use-modules (gnu)
 	     (nongnu packages linux)
 	     (gnu services base)
+	     (gnu services lightdm)
 	     (gnu services syncthing)
 	     (gnu services shepherd)
 	     (semi packages xremap))
@@ -50,11 +51,17 @@
  ;; Below is the list of system services.  To search for available
  ;; services, run 'guix system search KEYWORD' in a terminal.
  (services
-  (cons* (service gdm-service-type
-		  (gdm-configuration
-		   (wayland? #t)
-		   (xorg-configuration
-		    (xorg-configuration (keyboard-layout keyboard-layout)))))
+  (cons* (service lightdm-service-type
+		  (lightdm-configuration
+		   (seats
+		    (list (lightdm-seat-configuration
+			   (name "*")
+			   (user-session "qtile"))))))
+	 ;; (service gdm-service-type
+	 ;; 	    (gdm-configuration
+	 ;; 	     (wayland? #t)
+	 ;; 	     (xorg-configuration
+	 ;; 	      (xorg-configuration (keyboard-layout keyboard-layout)))))
 	 ;; Add a uinput udev rule so that Xremap can run without root
 	 ;; permissions.
 	 (udev-rules-service 'uinput
@@ -74,10 +81,11 @@
 	 (service syncthing-service-type
 		  (syncthing-configuration (user "semi")))
 
-         ;; This is the default list o
-         ;; are appending to.
-         (modify-services %desktop-services
-			  (delete gdm-service-type))))
+	 ;; This is the default list o
+	 ;; are appending to.
+	 (modify-services
+	  %desktop-services
+	  (delete gdm-service-type))))
  (bootloader (bootloader-configuration
               (bootloader grub-efi-bootloader)
               (targets (list "/boot/efi"))

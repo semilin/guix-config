@@ -11,10 +11,22 @@
 
 (add-hook 'prog-mode-hook (lambda ()
 			    (setq display-line-numbers-type 'relative)
-			    (display-line-numbers-mode)))
+			    (display-line-numbers-mode)
+			    (electric-pair-mode)))
+
+(use-package tramp
+  :config (setq tramp-default-method "ssh"))
 
 (use-package hy-mode
   :mode "\\.hy\\'"
+  :defer t)
+
+(use-package rustic
+  :mode ("\\.rs\\'" . rustic-mode)
+  :defer t)
+
+(use-package yaml-mode
+  :mode ("\\.yaml\\'" . yaml-mode)
   :defer t)
 
 (use-package company
@@ -23,10 +35,16 @@
   :hook (prog-mode . company-mode)
   :defer t)
 
+(use-package eglot
+  :defer t)
+
 (use-package ligature
   :hook (prog-mode . ligature-mode)
-  :config (ligature-set-ligatures '(c-mode rust-mode)
-				  '("->" "==" "!=" "<=" ">=" "/*" "*/")))
+  :config
+  (ligature-set-ligatures '(c-mode rust-mode)
+			  '("->" "==" "!=" "<=" ">=" "=>" "/*" "*/"))
+  (ligature-set-ligatures '(lisp-mode sly-mrepl-mode sly-mode)
+			  '("->" "->>" "<>" "<=" ">=" "/=" ";;")))
 
 (use-package vertico
   :config (vertico-mode +1))
@@ -53,7 +71,9 @@
 		 nil
 		 (window-parameters (mode-line-format . none)))))
 
-(use-package consult)
+(use-package consult
+  :bind (("C-x b" . consult-buffer)
+	 ("C-x p b" . consult-project-buffer)))
 
 (use-package embark-consult
   :hook (embark-collect-mode . consult-preview-at-point-mode))
@@ -79,6 +99,9 @@
 (use-package paredit
   :hook ((lisp-mode emacs-lisp-mode scheme-mode hy-mode) . paredit-mode))
 
+(use-package puni
+  :hook (rust-mode . puni-mode))
+
 (use-package rainbow-delimiters
   :hook ((lisp-mode emacs-lisp-mode scheme-mode hy-mode) . rainbow-delimiters-mode))
 
@@ -93,11 +116,10 @@
 (use-package diff-hl
   :config (global-diff-hl-mode +1))
 
-(use-package org-superstar
-  :hook (org-mode . org-superstar-mode))
-
 (use-package circe
   :config
   ;; This loads my libera.chat authentication information, which isn't
   ;; stored here.
   (load-file "/home/semi/.config/emacs/circe.el"))
+
+(load-file "/home/semi/.config/emacs/org.el")
