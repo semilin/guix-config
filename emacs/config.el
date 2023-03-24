@@ -14,12 +14,19 @@
 			    (display-line-numbers-mode)
 			    (electric-pair-mode)))
 
+(use-package emacs
+  :init
+  (setq completion-cycle-threshold 3)
+  (setq tab-always-indent 'complete))
+
 (use-package tramp
   :config (setq tramp-default-method "ssh"))
 
 (use-package hy-mode
   :mode "\\.hy\\'"
   :defer t)
+
+(use-package carp-mode)
 
 (use-package rustic
   :mode ("\\.rs\\'" . rustic-mode)
@@ -32,8 +39,12 @@
 (use-package company
   :config
   (setq company-idle-delay 0)
-  :hook (prog-mode . company-mode)
   :defer t)
+
+(use-package corfu
+  :custom (corfu-auto t)
+  :init
+  (global-corfu-mode))
 
 (use-package eglot
   :defer t)
