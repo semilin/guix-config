@@ -15,6 +15,7 @@
 	     (gnu services lightdm)
 	     (gnu services syncthing)
 	     (gnu services shepherd)
+	     (gnu services pm)
 	     (semi packages xremap))
 (use-service-modules cups desktop networking ssh xorg)
 
@@ -76,7 +77,11 @@
 				(start #~(make-forkexec-constructor
 					  (list #$(file-append xremap-0.8 "/bin/xremap")
 						#$(local-file "xremap.yaml"))))
-				(stop #~(make-kill-destructor)))))	  
+				(stop #~(make-kill-destructor)))))
+	 (service tlp-service-type
+		  (tlp-configuration
+		   (cpu-scaling-governor-on-ac (list "performance"))
+		   (sched-powersave-on-bat? #t)))
 	 (service cups-service-type)
 	 (service syncthing-service-type
 		  (syncthing-configuration (user "semi")))

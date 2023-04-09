@@ -11,6 +11,7 @@
 	     (gnu home services shepherd)
 	     (gnu packages)
 	     (gnu packages shells)
+	     (gnu packages bash)
 	     (gnu services)
 	     (gnu services shepherd)
 	     (guix gexp)
@@ -37,6 +38,7 @@
 		  "emacs-consult"
 		  "emacs-corfu"
 		  "emacs-eglot"
+		  "emacs-elfeed"
 		  "emacs-geiser"
 		  "emacs-geiser-guile"
 		  "emacs-god-mode"
@@ -59,6 +61,7 @@
 		  "emacs-yaml-mode"
 		  "exa"
 		  "fd"
+		  "fish"
 		  "gcc"
 		  "gettext"
 		  "git"
@@ -87,13 +90,9 @@
  (services
   (list (simple-service 'main-env-vars-service
 			home-environment-variables-service-type
-			`(("SHELL" . ,(file-append zsh "/bin/zsh"))
+			`(("SHELL" . ,(file-append bash "/bin/sh"))
 			  ("EDITOR" . "emacs")
 			  ("PATH" . "$PATH:$HOME/.local/bin")))
-	(service home-zsh-service-type
-		 (home-zsh-configuration
-		  (zshrc (list (local-file "/home/semi/code/guix-config/zshrc"
-					   "zshrc")))))
 	(simple-service 'qtile-hy2py-service
 			home-activation-service-type
 			(system "hy2py /home/semi/code/guix-config/qtile.hy > /home/semi/code/guix-config/qtile/config.py"))
@@ -101,6 +100,7 @@
 		 `(("alacritty.yml" ,(local-file "./alacritty.yml"))
 		   ("qtile/config.py" ,(local-file "./qtile/config.py"))
 		   ("qtile/background.jpg" ,(local-file "./qtile/background.jpg"))
+		   ("fish/config.fish" ,(local-file "./config.fish"))
 		   ("emacs/init.el" ,(local-file "./emacs/init.el"))
 		   ("emacs/early-init.el" ,(local-file "./emacs/early-init.el"))
 		   ("emacs/config.el" ,(local-file "./emacs/config.el"))

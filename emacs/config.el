@@ -127,6 +127,11 @@
 (use-package diff-hl
   :config (global-diff-hl-mode +1))
 
+(use-package scroll-on-jump
+  :config
+  (global-set-key (kbd "C-v") (scroll-on-jump-with-scroll-interactive 'scroll-up-command))
+  (global-set-key (kbd "M-v") (scroll-on-jump-with-scroll-interactive 'scroll-down-command)))
+
 (use-package circe
   :config
   ;; This loads my libera.chat authentication information, which isn't
@@ -134,3 +139,4 @@
   (load-file "/home/semi/.config/emacs/circe.el"))
 
 (load-file "/home/semi/.config/emacs/org.el")
+(load-file "/home/semi/.config/emacs/elfeed.el")

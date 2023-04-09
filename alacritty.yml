@@ -1,5 +1,5 @@
 shell:
-  program: /home/semi/.guix-profile/bin/zsh
+  program: /home/semi/.guix-home/profile/bin/fish
 
 env:
   TERM: alacritty
