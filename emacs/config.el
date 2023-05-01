@@ -53,7 +53,12 @@ Containing LEFT, and RIGHT aligned respectively."
 			  ;; left
 			  (format-mode-line
 			   (quote
-			    (" %* "
+			    ((:eval (let* ((ind (substring (meow-indicator) 1 2))
+					   (colors (if (string= ind "I")
+						       '("medium spring green" "black")
+						     '("purple" "white"))))
+				      (propertize (concat " " ind " ") 'face `(:background ,(car colors) :foreground ,(cadr colors)))))
+			     " %* "
 			     (:eval (propertize "%b " 'face 'bold))
 			     "%m "
 			     "%l:%c "
