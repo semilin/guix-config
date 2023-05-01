@@ -14,10 +14,59 @@
 			    (display-line-numbers-mode)
 			    (electric-pair-mode)))
 
+:::cl
+;; fontify doc strings in correct face
+;; lisp-mode already fontifies 'defun*' correctly
+(put 'defvar*   'doc-string-elt 3)
+(put 'defparameter*   'doc-string-elt 3)
+(put 'lambda*   'doc-string-elt 2)
+
+(defvar *lisp-special-forms*
+(regexp-opt '("defvar*"
+              "defconstant*"
+              "defparameter*"
+              "defgeneric*"
+              "defmethod*"
+              "lambda*"
+              "flet*"
+              "labels*") 'words))
+(font-lock-add-keywords 'lisp-mode
+  `((,*lisp-special-forms* . font-lock-keyword-face)))
+
 (use-package emacs
   :init
   (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete))
+  (setq tab-always-indent 'complete)
+
+  (set-face-background 'mode-line "gray10")
+  (set-face-background 'mode-line-highlight "gray19")
+
+  ;; taken from https://www.reddit.com/r/emacs/comments/1333621/wrote_a_custom_modeline_with_some_help_from/
+  (defun ntf/mode-line-format (left right)
+    "Return a string of `window-width' length.
+Containing LEFT, and RIGHT aligned respectively."
+    (let ((available-width (- (window-width) (length left) 1)))
+      (format (format "%%s %%%ds " available-width) left right)))
+
+  (setq-default mode-line-format
+		'((:eval (ntf/mode-line-format
+			  ;; left
+			  (format-mode-line
+			   (quote
+			    (" %* "
+			     (:eval (propertize "%b " 'face 'bold))
+			     "%m "
+			     "%l:%c "
+			     mode-line-percent-position
+			     "%%")))
+			  ;; right
+			  (format-mode-line (quote ((vc-mode vc-mode))))
+			  ))))
+
+  (setq display-time-string-forms
+	'((propertize (format-time-string "%H:%M") 'face 'bold)))
+  (display-time-mode)
+  )
 
 (use-package tramp
   :config (setq tramp-default-method "ssh"))
@@ -29,7 +78,7 @@
 (use-package carp-mode)
 
 (use-package rustic
-  :mode ("\\.rs\\'" . rustic-mode)
+  :mode ("\\.rs\\'" . rust-mode)
   :defer t)
 
 (use-package yaml-mode
@@ -59,6 +108,13 @@
 
 (use-package vertico
   :config (vertico-mode +1))
+
+(use-package vertico-posframe
+  :init
+  (setq vertico-posframe-parameters
+	'((left-fringe . 8)
+          (right-fringe . 8)))
+  :config (vertico-posframe-mode +1))
 
 (use-package savehist
   :init (savehist-mode))
@@ -91,7 +147,7 @@
 
 (use-package which-key
   :config
-  (setq which-key-idle-delay 0.1)
+  (setq which-key-idle-delay 0.5)
   (which-key-mode))
 
 (use-package expand-region
@@ -104,8 +160,8 @@
 (use-package dashboard
   :config (dashboard-setup-startup-hook))
 
-(use-package telephone-line
-  :config (telephone-line-mode +1))
+;; (use-package telephone-line
+;;   :config (telephone-line-mode +1))
 
 (use-package paredit
   :hook ((lisp-mode emacs-lisp-mode scheme-mode hy-mode) . paredit-mode))
@@ -140,3 +196,200 @@
 
 (load-file "/home/semi/.config/emacs/org.el")
 (load-file "/home/semi/.config/emacs/elfeed.el")
+
+;; `M-x combobulate' (or `C-c o o') to start using Combobulate
+;; pretty sure this doesn't work at all :grofl:
+(use-package treesit
+  :preface
+  (defun mp-setup-install-grammars ()
+    "Install Tree-sitter grammars if they are absent."
+    (interactive)
+    (dolist (grammar
+             '((css "https://github.com/tree-sitter/tree-sitter-css")
+               (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "master" "src"))
+               (python "https://github.com/tree-sitter/tree-sitter-python")
+	       (rust "https://github.com/tree-sitter/tree-sitter-rust")
+	       (c "https://github.com/tree-sitter/tree-sitter-c")
+               (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))))
+      (add-to-list 'treesit-language-source-alist grammar)
+      ;; Only install `grammar' if we don't already have it
+      ;; installed. However, if you want to *update* a grammar then
+      ;; this obviously prevents that from happening.
+      (unless (treesit-language-available-p (car grammar))
+        (treesit-install-language-grammar (car grammar)))))
+
+  ;; Optional, but recommended. Tree-sitter enabled major modes are
+  ;; distinct from their ordinary counterparts.
+  ;;
+  ;; You can remap major modes with `major-mode-remap-alist'. Note
+  ;; that this does *not* extend to hooks! Make sure you migrate them
+  ;; also
+  (dolist (mapping '((python-mode . python-ts-mode)
+                     (css-mode . css-ts-mode)
+                     (typescript-mode . tsx-ts-mode)
+                     (js-mode . js-ts-mode)
+                     (css-mode . css-ts-mode)
+		     (c-mode . c-ts-mode)
+		     (rust-mode . rust-ts-mode)))
+    (add-to-list 'major-mode-remap-alist mapping))
+
+  :config
+  (mp-setup-install-grammars)
+  ;; Do not forget to customize Combobulate to your liking:
+  ;;
+  ;;  M-x customize-group RET combobulate RET
+  ;;
+  (use-package combobulate
+    ;; Optional, but recommended.
+    ;;
+    ;; You can manually enable Combobulate with `M-x
+    ;; combobulate-mode'.
+    :hook ((python-ts-mode . combobulate-mode)
+           (js-ts-mode . combobulate-mode)
+           (css-ts-mode . combobulate-mode)
+           (yaml-ts-mode . combobulate-mode)
+           (typescript-ts-mode . combobulate-mode)
+           (tsx-ts-mode . combobulate-mode))
+    ;; Amend this to the directory where you keep Combobulate's source
+    ;; code.
+    :load-path ("~/.config/emacs/combobulate/")))
+
+(use-package meow
+  :init
+  (defconst meow-cheatsheet-layout-semimak-jq
+    '((<TLDE> "`" "~")
+      (<AE01> "1" "!")
+      (<AE02> "2" "@")
+      (<AE03> "3" "#")
+      (<AE04> "4" "$")
+      (<AE05> "5" "%")
+      (<AE06> "6" "^")
+      (<AE07> "7" "&")
+      (<AE08> "8" "*")
+      (<AE09> "9" "(")
+      (<AE10> "0" ")")
+      (<AE11> "-" "_")
+      (<AE12> "=" "+")
+      (<AD01> "f" "F")
+      (<AD02> "l" "L")
+      (<AD03> "h" "H")
+      (<AD04> "v" "V")
+      (<AD05> "z" "Z")
+      (<AD06> "'" "\"")
+      (<AD07> "w" "W")
+      (<AD08> "u" "U")
+      (<AD09> "o" "O")
+      (<AD10> "y" "Y")
+      (<AD11> "[" "{")
+      (<AD12> "]" "}")
+      (<BKSL> "\\" "|")
+      (<AC01> "s" "S")
+      (<AC02> "r" "R")
+      (<AC03> "n" "N")
+      (<AC04> "t" "T")
+      (<AC05> "k" "K")
+      (<AC06> "c" "C")
+      (<AC07> "d" "D")
+      (<AC08> "e" "E")
+      (<AC09> "a" "A")
+      (<AC10> "i" "I")
+      (<AC11> ";" ":")
+      (<AB01> "j" "J")
+      (<AB02> "b" "B")
+      (<AB03> "n" "N")
+      (<AB04> "m" "M")
+      (<AB05> "q" "Q")
+      (<AB06> "p" "P")
+      (<AB07> "g" "G")
+      (<AB08> "," "<")
+      (<AB09> "." ">")
+      (<AB10> "/" "?")
+      (<LSGT> "-" "_")))
+  
+  (defun meow-setup ()
+    (setq meow-cheatsheet-layout meow-cheatsheet-layout-semimak-jq)
+    (meow-motion-overwrite-define-key
+     ;; Use e to move up, n to move down.
+     ;; Since special modes usually use n to move down, we only overwrite e here.
+     '("e" . meow-prev)
+     '("<escape>" . ignore))
+    (meow-leader-define-key
+     '("?" . meow-cheatsheet)
+     ;; To execute the originally e in MOTION state, use SPC e.
+     '("e" . "H-e")
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument))
+    (meow-normal-define-key
+     '("0" . meow-expand-0)
+     '("1" . meow-expand-1)
+     '("2" . meow-expand-2)
+     '("3" . meow-expand-3)
+     '("4" . meow-expand-4)
+     '("5" . meow-expand-5)
+     '("6" . meow-expand-6)
+     '("7" . meow-expand-7)
+     '("8" . meow-expand-8)
+     '("9" . meow-expand-9)
+     '("-" . negative-argument)
+     '(";" . meow-reverse)
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
+     '("[" . meow-beginning-of-thing)
+     '("]" . meow-end-of-thing)
+     '("/" . meow-visit)
+     '("a" . meow-right)
+     '("A" . meow-right-expand)
+     '("b" . meow-back-word)
+     '("B" . meow-back-symbol)
+     '("c" . meow-left)
+     '("C" . meow-left-expand)
+     '("d" . meow-next)
+     '("D" . meow-next-expand)
+     '("e" . meow-prev)
+     '("E" . meow-prev-expand)
+     '("f" . meow-find)
+     '("g" . meow-cancel-selection)
+     '("G" . meow-grab)
+     ;;'("h" . meow-change)
+     ;;'("H" . meow-next-expand)
+     '("i" . meow-append)
+     '("I" . meow-open-below)
+     '("j" . meow-join)
+     '("k" . meow-kill)
+     '("K" . meow-delete)
+     '("l" . meow-line)
+     '("L" . meow-goto-line)
+     '("m" . meow-mark-word)
+     '("M" . meow-mark-symbol)
+     '("n" . meow-change)
+     ;;'("N" . meow-open-above)
+     '("o" . meow-block)
+     '("O" . meow-to-block)
+     '("p" . meow-yank)
+     '("q" . meow-quit)
+     '("r" . meow-replace)
+     '("s" . meow-insert)
+     '("S" . meow-open-above)
+     '("t" . meow-till)
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     '("v" . meow-search)
+     '("w" . meow-next-word)
+     '("W" . meow-next-symbol)
+     '("x" . meow-delete)
+     '("X" . meow-backward-delete)
+     '("y" . meow-save)
+     '("z" . meow-pop-selection)
+     '("'" . repeat)
+     '("<escape>" . ignore)))
+  :config
+  (meow-setup)
+  (meow-global-mode))

@@ -1,6 +1,6 @@
 if status is-interactive
     function fish_prompt
-        echo -n (set_color green)(date +%H:%M) (set_color blue)(pwd)(set_color normal)' $ '
+        echo -n (set_color blue)(date +%H:%M) (set_color purple)(pwd)(set_color normal)' '
     end
 
     wal --theme base16-tomorrow-night -nq &
@@ -17,5 +17,7 @@ if status is-interactive
     alias e $EDITOR
     alias ghr "guix home reconfigure -L /home/semi/code/guix-config/custom/ /home/semi/code/guix-config/home.scm"
     alias gsr "sudo -E guix system reconfigure -L /home/semi/code/guix-config/custom/ /home/semi/code/guix-config/system.scm"
-
+    function gs
+        guix shell $argv -- fish
+    end
 end
