@@ -17,21 +17,26 @@
 :::cl
 ;; fontify doc strings in correct face
 ;; lisp-mode already fontifies 'defun*' correctly
-(put 'defvar*   'doc-string-elt 3)
-(put 'defparameter*   'doc-string-elt 3)
-(put 'lambda*   'doc-string-elt 2)
+(put 'defvar* 'doc-string-elt 3)
+(put 'defparameter* 'doc-string-elt 3)
+(put 'lambda* 'doc-string-elt 2)
 
 (defvar *lisp-special-forms*
-(regexp-opt '("defvar*"
-              "defconstant*"
-              "defparameter*"
-              "defgeneric*"
-              "defmethod*"
-              "lambda*"
-              "flet*"
-              "labels*") 'words))
+  (regexp-opt '("defvar*"
+		"defconstant*"
+		"defparameter*"
+		"defgeneric*"
+		"defmethod*"
+		"defun*"
+		"lambda*"
+		"flet*"
+		"labels*")
+	      'words))
+
 (font-lock-add-keywords 'lisp-mode
-  `((,*lisp-special-forms* . font-lock-keyword-face)))
+			`((,*lisp-special-forms* . font-lock-keyword-face)))
+
+(use-package all-the-icons)
 
 (use-package emacs
   :init
@@ -47,6 +52,8 @@
 Containing LEFT, and RIGHT aligned respectively."
     (let ((available-width (- (window-width) (length left) 1)))
       (format (format "%%s %%%ds " available-width) left right)))
+
+  (set-face-background 'fringe (face-background 'default))
 
   (setq-default mode-line-format
 		'((:eval (ntf/mode-line-format
@@ -65,7 +72,9 @@ Containing LEFT, and RIGHT aligned respectively."
 			     mode-line-percent-position
 			     "%%")))
 			  ;; right
-			  (format-mode-line (quote ((vc-mode vc-mode))))
+			  (format-mode-line (quote ((:eval (when (org-clock-is-active)
+							     (org-clock-get-clock-string)))
+						    (vc-mode vc-mode))))
 			  ))))
 
   (setq display-time-string-forms
@@ -100,13 +109,32 @@ Containing LEFT, and RIGHT aligned respectively."
   :init
   (global-corfu-mode))
 
+(use-package tempel
+  :bind (("M-+" . tempel-complete)
+	 ("M-*" . tempel-insert))
+
+  :init
+  (defun tempel-setup-capf ()
+    ;; Add the Tempel Capf to `completion-at-point-functions'.
+    ;; `tempel-expand' only triggers on exact matches. Alternatively use
+    ;; `tempel-complete' if you want to see all matches, but then you
+    ;; should also configure `tempel-trigger-prefix', such that Tempel
+    ;; does not trigger too often when you don't expect it. NOTE: We add
+    ;; `tempel-expand' *before* the main programming mode Capf, such
+    ;; that it will be tried first.
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
+  :hook ((prog-mode . tempel-setup-capf)
+	 (text-mode . tempel-setup-capf)))
+
 (use-package eglot
   :defer t)
 
 (use-package ligature
   :hook (prog-mode . ligature-mode)
   :config
-  (ligature-set-ligatures '(c-mode rust-mode)
+  (ligature-set-ligatures '(c-mode rust-mode rust-ts-modeo)
 			  '("->" "==" "!=" "<=" ">=" "=>" "/*" "*/"))
   (ligature-set-ligatures '(lisp-mode sly-mrepl-mode sly-mode)
 			  '("->" "->>" "<>" "<=" ">=" "/=" ";;")))
@@ -177,8 +205,8 @@ Containing LEFT, and RIGHT aligned respectively."
 (use-package rainbow-delimiters
   :hook ((lisp-mode emacs-lisp-mode scheme-mode hy-mode) . rainbow-delimiters-mode))
 
-(use-package aggressive-indent
-  :hook ((lisp-mode emacs-lisp-mode scheme-mode hy-mode) . aggressive-indent-mode))
+;; (use-package aggressive-indent
+;;   :hook ((lisp-mode emacs-lisp-mode scheme-mode hy-mode) . aggressive-indent-mode))
 
 (use-package magit
   :bind (("C-x g" . magit)))
@@ -193,11 +221,11 @@ Containing LEFT, and RIGHT aligned respectively."
   (global-set-key (kbd "C-v") (scroll-on-jump-with-scroll-interactive 'scroll-up-command))
   (global-set-key (kbd "M-v") (scroll-on-jump-with-scroll-interactive 'scroll-down-command)))
 
-(use-package circe
-  :config
-  ;; This loads my libera.chat authentication information, which isn't
-  ;; stored here.
-  (load-file "/home/semi/.config/emacs/circe.el"))
+;; (use-package circe
+;;   :config
+;;   ;; This loads my libera.chat authentication information, which isn't
+;;   ;; stored here.
+;;   (load-file "/home/semi/.config/emacs/circe.el"))
 
 (load-file "/home/semi/.config/emacs/org.el")
 (load-file "/home/semi/.config/emacs/elfeed.el")
@@ -301,9 +329,9 @@ Containing LEFT, and RIGHT aligned respectively."
       (<AC11> ";" ":")
       (<AB01> "j" "J")
       (<AB02> "b" "B")
-      (<AB03> "n" "N")
-      (<AB04> "m" "M")
-      (<AB05> "q" "Q")
+      (<AB03> "m" "M")
+      (<AB04> "q" "Q")
+      (<AB05> "x" "X")
       (<AB06> "p" "P")
       (<AB07> "g" "G")
       (<AB08> "," "<")
@@ -316,7 +344,8 @@ Containing LEFT, and RIGHT aligned respectively."
     (meow-motion-overwrite-define-key
      ;; Use e to move up, n to move down.
      ;; Since special modes usually use n to move down, we only overwrite e here.
-     '("e" . meow-prev)
+     ;; '("e" . meow-prev)
+     ;; '("d" . meow-next)
      '("<escape>" . ignore))
     (meow-leader-define-key
      '("?" . meow-cheatsheet)

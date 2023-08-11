@@ -36,7 +36,7 @@ modmap:
 keymap:
   - name: Firefox
     application:
-      only: Nightly
+      only: firefox-default
     remap:
       C-b: left
       C-f: right

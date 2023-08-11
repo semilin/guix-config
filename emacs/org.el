@@ -8,13 +8,30 @@
 
   (setq org-refile-targets (quote (("school.org" :maxlevel . 2)
 				   ("personal_projects.org" :maxlevel . 2)
-				   ("someday.org" :maxlevel . 2))))
+				   ("someday.org" :maxlevel . 2)
+				   ("wellbeing.org" :maxlevel . 2))))
   :bind (("C-c c" . org-capture)
 	 ("C-c a" . org-agenda))
   :hook (org-mode . auto-fill-mode))
 
-(use-package org-superstar
-  :hook (org-mode . org-superstar-mode))
+(use-package org-modern
+  :hook ((org-mode . org-modern-mode)
+	 (org-agenda-finalize . org-modern-agenda)))
+
+;; (use-package org-superstar
+;;   :hook (org-mode . org-superstar-mode))
+
+(use-package org-recur
+  :hook ((org-mode . org-recur-mode)
+	 (org-agenda-mode . org-recur-agenda-mode))
+  :demand t
+  :config
+  (define-key org-recur-mode-map (kbd "C-c d") 'org-recur-finish)
+
+  (define-key org-recur-agenda-mode-map (kbd "D") 'org-recur-finish)
+  (define-key org-recur-agenda-mode-map (kbd "C-c d") 'org-recur-finish)
+  (setq org-recur-finish-done t
+	org-recur-finish-archive t))
 
 (use-package org-roam
   :defer t
